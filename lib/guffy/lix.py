@@ -1,5 +1,4 @@
 import re
-from . import scrapeutil as sutil
 from . import crawlutil as crawl
 
 '''
@@ -8,17 +7,18 @@ lix will download page form URL and extract href link from that page.
 After extraction, print links to stdout.
 '''
 
+
 def extract_element(bs, tag, attr, class_=None):
     "This extract attribute of tag. It can filter by class"
     if class_ is None:
         page = bs.find_all(tag)
     else:
         page = bs.find_all(tag, class_=class_)
-        
+
         has_attr = filter(lambda x: attr in x.attrs, page)
         return list(map(lambda x: x.attrs[attr], has_attr))
-    
-    
+
+
 def extract_link(bsobj, class_=None, permit_other_host=False):
     """This extract links in href of a-tag.
     If permit_other_host is True,
@@ -29,7 +29,7 @@ def extract_link(bsobj, class_=None, permit_other_host=False):
 
 def extract_link_by_query(bsObj, query):
     """This extract link from `bsObj` and filter them by query"""
-    
+
     return crawl.search_urls(crawl.find_all_urls(bsObj), re.compile(query))
 
 
