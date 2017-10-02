@@ -1,0 +1,48 @@
+#!/usr/bin/env python
+
+import guffy.lix as lix
+import guffy.crawlutil as crawl
+import guffy.scrapeutil as sutil
+
+
+if __name__ == '__main__':
+    import argparse
+
+    # argparse
+    parser = argparse.ArgumentParser(description='link extractor')
+    target_group = parser.add_mutually_exclusive_group()
+    target_group.add_argument('-a',
+                              '--all',
+                              help='extract all link(support a-href and img-src now).',
+                              action='store_true')
+    target_group.add_argument('-i',
+                              '--image',
+                              help='extract from img tag.',
+                              action='store_true')
+    parser.add_argument('url',
+                        help='URL that you want to extract links from.')
+    parser.add_argument('-r',
+                        '--regex',
+                        help='Regex pattern for filtering links.',
+                        default='.*')
+    args = parser.parse_args()
+    url = args.url
+    regex = args.regex
+
+    # main process
+    bsObj = crawl.get_bsObj(url)
+
+    if args.image:
+        links = lix.extract_img(bsObj)
+    elif args.all:
+        links = lix.extract_img(bsObj)
+        links += lix.extract_link_by_query(bsObj, regex)
+    else:
+        links = lix.extract_link_by_query(bsObj, regex)
+
+    # need option
+    links = sutil.regulate_url(url, links, True)
+
+    # print links
+    for link in links:
+        print(link)
