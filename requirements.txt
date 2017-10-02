@@ -1,0 +1,6 @@
+beautifulsoup4==4.5.3
+cssselect==1.0.1
+lxml==3.7.3
+PySocks==1.6.7
+requests==2.13.0
+selenium==3.4.1
