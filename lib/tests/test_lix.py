@@ -1,7 +1,5 @@
 import unittest
 from guffy import lix
-import os
-import sys
 
 
 class TestLix(unittest.TestCase):
@@ -21,7 +19,7 @@ class TestLix(unittest.TestCase):
 
     bsObj = BeautifulSoup(html, "lxml")
 
-    def test_extract_element(self):        
+    def test_extract_element(self):
         self.assertListEqual(
             lix.extract_element(self.bsObj, 'a', 'href'),
             ['/index.php', 'this/is/test'])
